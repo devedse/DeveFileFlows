@@ -21,10 +21,4 @@
     <ProjectReference Include="..\DeveFileFlows\DeveFileFlows.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="AdventureMap.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
