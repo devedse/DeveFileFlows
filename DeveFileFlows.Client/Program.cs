@@ -7,9 +7,9 @@ internal class Program
     private static async Task Main(string[] args)
     {
         using var host = Host.CreateDefaultBuilder(args)
-    .UseOrleansClient(clientBuilder =>
-        clientBuilder.UseLocalhostClustering())
-    .Build();
+            .UseOrleansClient(clientBuilder =>
+                clientBuilder.UseLocalhostClustering())
+            .Build();
 
         await host.StartAsync();
 
