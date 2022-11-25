@@ -2,9 +2,12 @@ using DeveFileFlows.GrainInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-internal class Program
+public class Program
 {
-    private static async Task Main(string[] args)
+    public const string InputFileToken = "%INPUTFILETOKEN%";
+    public const string OutputFileToken = "%OUTPUTFILETOKEN%";
+
+    public static async Task Main(string[] args)
     {
         using var host = Host.CreateDefaultBuilder(args)
             .UseOrleansClient(clientBuilder =>
@@ -29,8 +32,17 @@ internal class Program
         await fileFlow1.SetSteps(new List<FileFlowStep>()
         {
             new FileFlowStep(
+                "C:\\Program Files\\FileOptimizer\\Plugins64\\Leanify.exe",
+                $"-p --keep-exif --keep-icc --jpeg-keep-all -i {1} \"{InputFileToken}\""),
+            new FileFlowStep(
                 "C:\\Program Files\\FileOptimizer\\Plugins64\\jpegoptim.exe",
-                $"-o --all-progressive \""+"%INPUTFILETOKEN%"+"\"")
+                $"-o --all-progressive \"{InputFileToken}\""),
+            new FileFlowStep(
+                "C:\\Program Files\\FileOptimizer\\Plugins64\\jpegtran.exe",
+                $"-progressive -optimize -copy all \"{InputFileToken}\" \"{InputFileToken}\""),
+            new FileFlowStep(
+                "C:\\Program Files\\FileOptimizer\\Plugins64\\mozjpegtran.exe",
+                $"-outfile \"{OutputFileToken}\" -progressive -optimize -perfect -optimize -copy all \"{InputFileToken}\"")
         });
 
 

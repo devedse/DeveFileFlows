@@ -28,6 +28,7 @@ namespace DeveFileFlows
                 var step = steps[i];
 
                 var stepRunner = _grainFactory.GetGrain<IStepRunnerGrain>($"{flowId}_{step.tool}");
+                await stepRunner.SetStepConfig(step);
 
                 if (i != steps.Count - 1)
                 {

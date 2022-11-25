@@ -8,6 +8,7 @@ namespace DeveFileFlows.GrainInterfaces
 {
     public interface IStepRunnerGrain : IGrainWithStringKey
     {
+        Task SetStepConfig(FileFlowStep fileFlowStep);
         Task SetNextStep(IStepRunnerGrain nextStepGrain);
         Task RunAsync(string filePath);
     }
