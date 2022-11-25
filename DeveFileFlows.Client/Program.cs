@@ -10,18 +10,6 @@ using var host = Host.CreateDefaultBuilder(args)
 
 await host.StartAsync();
 
-Console.WriteLine("""
-     ______      __                         __                           
-    /\  _  \    /\ \                       /\ \__                        
-    \ \ \L\ \   \_\ \  __  __     __    ___\ \ ,_\  __  __  _ __    __   
-     \ \  __ \  /'_` \/\ \/\ \  /'__`\/' _ `\ \ \/ /\ \/\ \/\`'__\/'__`\ 
-      \ \ \/\ \/\ \L\ \ \ \_/ |/\  __//\ \/\ \ \ \_\ \ \_\ \ \ \//\  __/ 
-       \ \_\ \_\ \___,_\ \___/ \ \____\ \_\ \_\ \__\\ \____/\ \_\\ \____\
-        \/_/\/_/\/__,_ /\/__/   \/____/\/_/\/_/\/__/ \/___/  \/_/ \/____/
-    """);
-
-
-
 var client = host.Services.GetRequiredService<IClusterClient>();
 
 var fileFlow1 = client.GetGrain<IFileFlowGrain>(0);
@@ -42,6 +30,9 @@ await fileFlow1.SetSteps(new List<FileFlowStep>()
                     $"-o --all-progressive \""+"%INPUTFILETOKEN%"+"\"")
             });
 
+
+var flowRunnerGrain = client.GetGrain<IFlowRunnerGrain>(0);
+await flowRunnerGrain.RunFlow(0, "FileName");
 
 Console.WriteLine();
 Console.WriteLine("What's your name?");

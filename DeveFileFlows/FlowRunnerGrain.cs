@@ -21,7 +21,7 @@ namespace DeveFileFlows
             var golfGraan = _grainFactory.GetGrain<IFileFlowGrain>(flowId);
 
             var steps = await golfGraan.GetSteps();
-
+            Console.WriteLine($"Run FLow: steps {steps.Count}");
 
             for (int i = 0; i < steps.Count; i++)
             {
