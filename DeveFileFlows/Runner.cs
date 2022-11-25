@@ -20,7 +20,7 @@ namespace DeveFileFlows
                          .AddAdoNetGrainStorage("OrleansStorage", options =>
                          {
                              options.Invariant = "<Invariant>";
-                             options.ConnectionString = "Server=tcp:db,1433;Initial Catalog=Dispatching;Persist Security Info=False;User ID=SA;Password=yourStrong(!)Password;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+                             options.ConnectionString = "Server=tcp:db,1433;Initial Catalog=OrleansDb;Persist Security Info=False;User ID=SA;Password=yourStrong(!)Password;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
                          })
                          .AddMemoryStreams("files");
                  })
