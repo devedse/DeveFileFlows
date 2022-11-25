@@ -38,7 +38,7 @@ namespace DeveFileFlows
             }
 
             var stepRunnerGogo = _grainFactory.GetGrain<IStepRunnerGrain>($"{flowId}_{steps[0].tool}");
-            await stepRunnerGogo.RunAsync(filePath);
+            stepRunnerGogo.RunAsync(filePath).Ignore();
         }
     }
 }
