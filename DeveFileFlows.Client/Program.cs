@@ -1,78 +1,64 @@
-﻿using DeveFileFlows.Common.Grains;
-using DeveFileFlows.Common.Pocos;
+using AdventureGrainInterfaces;
+using DeveFileFlows.GrainInterfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Spectre.Console;
-using System;
 
-namespace DeveFileFlows.Client
-{
-    public class Program
-    {
-        public const string InputFileToken = "%INPUTFILETOKEN%";
-        public const string OutputFileToken = "%OUTPUTFILETOKEN%";
+using var host = Host.CreateDefaultBuilder(args)
+    .UseOrleansClient(clientBuilder =>
+        clientBuilder.UseLocalhostClustering())
+    .Build();
 
-        public static async Task Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
+await host.StartAsync();
 
-            using var host = new HostBuilder()
-                .UseOrleansClient(clientBuilder =>
-                {
-                    clientBuilder.UseLocalhostClustering()
-                        .AddMemoryStreams("chat");
-                })
-                .Build();
+Console.WriteLine("""
+     ______      __                         __                           
+    /\  _  \    /\ \                       /\ \__                        
+    \ \ \L\ \   \_\ \  __  __     __    ___\ \ ,_\  __  __  _ __    __   
+     \ \  __ \  /'_` \/\ \/\ \  /'__`\/' _ `\ \ \/ /\ \/\ \/\`'__\/'__`\ 
+      \ \ \/\ \/\ \L\ \ \ \_/ |/\  __//\ \/\ \ \ \_\ \ \_\ \ \ \//\  __/ 
+       \ \_\ \_\ \___,_\ \___/ \ \____\ \_\ \_\ \__\\ \____/\ \_\\ \____\
+        \/_/\/_/\/__,_ /\/__/   \/____/\/_/\/_/\/__/ \/___/  \/_/ \/____/
+    """);
 
+Console.WriteLine();
+Console.WriteLine("What's your name?");
+var name = Console.ReadLine()!;
 
+var client = host.Services.GetRequiredService<IClusterClient>();
 
-            var client = host.Services.GetRequiredService<IClusterClient>();
-
-            Console.WriteLine("Connecting...");
-            await host.StartAsync();
-            Console.WriteLine("Connected :)");
-
-
-            var fileFlow1 = client.GetGrain<IFileFlowGrain>(0);
-            await fileFlow1.SetFileFlowConfig(new FileFlowConfig("CompressImage"));
-            await fileFlow1.SetSteps(new List<FileFlowStep>()
+var fileFlow1 = client.GetGrain<IFileFlowGrain>(0);
+await fileFlow1.SetFileFlowConfig(new FileFlowConfig("CompressImage"));
+await fileFlow1.SetSteps(new List<FileFlowStep>()
             {
                 new FileFlowStep(
                     "C:\\Program Files\\FileOptimizer\\Plugins64\\jpegoptim.exe",
-                    $"-o --all-progressive \"{InputFileToken}\"")
+                    $"-o --all-progressive \""+"%INPUTFILETOKEN%"+"\"")
             });
 
 
 
+var player = client.GetGrain<IPlayerGrain>(Guid.NewGuid());
+await player.SetName(name);
 
+var room1 = client.GetGrain<IRoomGrain>(0);
+await player.SetRoomGrain(room1);
 
-            await ProcessLoopAsync(client);
+Console.WriteLine(await player.Play("look"));
 
-            await host.StopAsync();
-        }
+var result = "Start";
+try
+{
+    while (result is not "")
+    {
+        var command = Console.ReadLine()!;
 
-
-
-        static async Task ProcessLoopAsync(IClusterClient client)
-        {
-            string? input = null;
-            do
-            {
-                input = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    continue;
-                }
-
-                if (input.StartsWith("/exit"))
-                {
-                    break;
-                }
-
-
-
-                //await SendMessage(client, input);
-            } while (input is not "/exit");
-        }
+        result = await player.Play(command);
+        Console.WriteLine(result);
     }
+}
+finally
+{
+    await player.Die();
+    Console.WriteLine("Game over!");
+    await host.StopAsync();
 }

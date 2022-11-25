@@ -1,6 +1,4 @@
-﻿using Orleans;
-
-namespace DeveFileFlows.Common.Pocos
+﻿namespace DeveFileFlows.GrainInterfaces
 {
     [Immutable, GenerateSerializer]
     public record class FileFlowStep(

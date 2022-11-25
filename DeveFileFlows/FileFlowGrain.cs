@@ -1,7 +1,6 @@
-﻿using DeveFileFlows.Common.Grains;
-using DeveFileFlows.Common.Pocos;
+﻿using DeveFileFlows.GrainInterfaces;
 
-namespace DeveFileFlows.Grains
+namespace DeveFileFlows
 {
     public class FileFlowGrain : Grain, IFileFlowGrain
     {
