@@ -21,7 +21,7 @@ namespace DeveFileFlows
             var golfGraan = _grainFactory.GetGrain<IFileFlowGrain>(flowId);
 
             var steps = await golfGraan.GetSteps();
-            Console.WriteLine($"Run FLow: steps {steps.Count}");
+            Console.WriteLine($"Run Flow: steps {steps.Count}");
 
             for (int i = 0; i < steps.Count; i++)
             {
@@ -35,9 +35,10 @@ namespace DeveFileFlows
                     var nextStep = _grainFactory.GetGrain<IStepRunnerGrain>($"{flowId}_{steps[i + 1].tool}");
                     await stepRunner.SetNextStep(nextStep);
                 }
-
-                await stepRunner.RunAsync(filePath);
             }
+
+            var stepRunnerGogo = _grainFactory.GetGrain<IStepRunnerGrain>($"{flowId}_{steps[0].tool}");
+            await stepRunnerGogo.RunAsync(filePath);
         }
     }
 }

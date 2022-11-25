@@ -47,7 +47,7 @@ public class Program
 
 
         var flowRunnerGrain = client.GetGrain<IFlowRunnerGrain>(0);
-        await flowRunnerGrain.RunFlow(0, "FileName");
+        await flowRunnerGrain.RunFlow(0, "C:\\TheFolder\\test.jpg");
         Console.WriteLine("Flow ran :)");
 
         var result = "";
