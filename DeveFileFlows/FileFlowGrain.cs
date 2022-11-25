@@ -7,14 +7,14 @@ namespace DeveFileFlows
     {
 
         private readonly IPersistentState<FileFlowConfig> _fileFlowConfigState;
-        private readonly IPersistentState<IList<FileFlowStep>> _stepsState;
+        private readonly IPersistentState<FileFlowSteps> _stepsState;
 
         public FileFlowGrain(
-            [PersistentState("fileFlowConfig", "ultraStore")] IPersistentState<FileFlowConfig> fileFlowConfigState)
-            //[PersistentState("steps", "ultraStore")] IPersistentState<IList<FileFlowStep>> stepsState
+            [PersistentState("fileFlowConfig", "ultraStore")] IPersistentState<FileFlowConfig> fileFlowConfigState,
+            [PersistentState("steps", "ultraStore")] IPersistentState<FileFlowSteps> stepsState)
         {
             _fileFlowConfigState = fileFlowConfigState;
-            //_stepsState = stepsState;
+            _stepsState = stepsState;
         }
 
 
@@ -26,7 +26,7 @@ namespace DeveFileFlows
 
         public Task<IList<FileFlowStep>> GetSteps()
         {
-            return Task.FromResult(_stepsState.State);
+            return Task.FromResult(_stepsState.State.Steps);
         }
 
         public Task SetFileFlowConfig(FileFlowConfig config)
@@ -37,7 +37,7 @@ namespace DeveFileFlows
 
         public Task SetSteps(IList<FileFlowStep> steps)
         {
-            _stepsState.State = steps;
+            _stepsState.State.Steps = steps;
             return _stepsState.WriteStateAsync();
         }
     }
