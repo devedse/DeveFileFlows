@@ -34,7 +34,7 @@ internal class Program
             {
                 siloBuilder
                 .UseLocalhostClustering()
-                .AddAdoNetGrainStorage("OrleansStorage", options =>
+                .AddAdoNetGrainStorage("ultraStore", options =>
                 {
                     options.Invariant = "System.Data.SqlClient";
                     options.ConnectionString = "Server=tcp:db,1433;Initial Catalog=OrleansDb;Persist Security Info=False;User ID=SA;Password=yourStrong(!)Password;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";

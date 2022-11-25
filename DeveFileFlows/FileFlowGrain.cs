@@ -1,32 +1,44 @@
 ﻿using DeveFileFlows.GrainInterfaces;
+using Orleans.Runtime;
 
 namespace DeveFileFlows
 {
     public class FileFlowGrain : Grain, IFileFlowGrain
     {
-        private FileFlowConfig _fileFlowConfig = new("");
-        private IList<FileFlowStep> _steps = new List<FileFlowStep>();
+
+        private readonly IPersistentState<FileFlowConfig> _fileFlowConfigState;
+        private readonly IPersistentState<IList<FileFlowStep>> _stepsState;
+
+        public FileFlowGrain(
+            [PersistentState("fileFlowConfig", "ultraStore")] IPersistentState<FileFlowConfig> fileFlowConfigState)
+            //[PersistentState("steps", "ultraStore")] IPersistentState<IList<FileFlowStep>> stepsState
+        {
+            _fileFlowConfigState = fileFlowConfigState;
+            //_stepsState = stepsState;
+        }
+
+
 
         public Task<FileFlowConfig> GetFileFlowConfig()
         {
-            return Task.FromResult(_fileFlowConfig);
+            return Task.FromResult(_fileFlowConfigState.State);
         }
 
         public Task<IList<FileFlowStep>> GetSteps()
         {
-            return Task.FromResult(_steps);
+            return Task.FromResult(_stepsState.State);
         }
 
         public Task SetFileFlowConfig(FileFlowConfig config)
         {
-            _fileFlowConfig = config;
-            return Task.CompletedTask;
+            _fileFlowConfigState.State = config;
+            return _fileFlowConfigState.WriteStateAsync();
         }
 
         public Task SetSteps(IList<FileFlowStep> steps)
         {
-            _steps = steps;
-            return Task.CompletedTask;
+            _stepsState.State = steps;
+            return _stepsState.WriteStateAsync();
         }
     }
 }

@@ -20,13 +20,15 @@ Console.WriteLine("""
         \/_/\/_/\/__,_ /\/__/   \/____/\/_/\/_/\/__/ \/___/  \/_/ \/____/
     """);
 
-Console.WriteLine();
-Console.WriteLine("What's your name?");
-var name = Console.ReadLine()!;
+
 
 var client = host.Services.GetRequiredService<IClusterClient>();
 
 var fileFlow1 = client.GetGrain<IFileFlowGrain>(0);
+
+var theconfig = await fileFlow1.GetFileFlowConfig();
+Console.WriteLine(theconfig.Name);
+
 await fileFlow1.SetFileFlowConfig(new FileFlowConfig("CompressImage"));
 await fileFlow1.SetSteps(new List<FileFlowStep>()
             {
@@ -36,7 +38,9 @@ await fileFlow1.SetSteps(new List<FileFlowStep>()
             });
 
 
-
+Console.WriteLine();
+Console.WriteLine("What's your name?");
+var name = Console.ReadLine()!;
 var player = client.GetGrain<IPlayerGrain>(Guid.NewGuid());
 await player.SetName(name);
 
