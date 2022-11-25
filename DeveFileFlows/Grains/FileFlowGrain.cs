@@ -3,7 +3,7 @@ using DeveFileFlows.Common.Pocos;
 
 namespace DeveFileFlows.Grains
 {
-    public class FileFlowGrain : IFileFlowGrain
+    public class FileFlowGrain : Grain, IFileFlowGrain
     {
         private FileFlowConfig _fileFlowConfig = new("");
         private IList<FileFlowStep> _steps = new List<FileFlowStep>();

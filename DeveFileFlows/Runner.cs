@@ -22,7 +22,7 @@ namespace DeveFileFlows
                              options.Invariant = "System.Data.SqlClient";
                              options.ConnectionString = "Server=tcp:db,1433;Initial Catalog=OrleansDb;Persist Security Info=False;User ID=SA;Password=yourStrong(!)Password;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
                          });
-                         //.AddMemoryStreams("files");
+                     //.AddMemoryStreams("files");
                  })
                  .RunConsoleAsync();
         }

@@ -33,7 +33,6 @@ namespace DeveFileFlows.Client
             Console.WriteLine("Connected :)");
 
 
-
             var fileFlow1 = client.GetGrain<IFileFlowGrain>(0);
             await fileFlow1.SetFileFlowConfig(new FileFlowConfig("CompressImage"));
             await fileFlow1.SetSteps(new List<FileFlowStep>()
