@@ -12,6 +12,7 @@
 		<PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Orleans.Server" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Orleans.Streaming" Version="7.0.0" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -40,7 +40,7 @@ namespace DeveFileFlows.Client
             {
                 new FileFlowStep(
                     "C:\\Program Files\\FileOptimizer\\Plugins64\\jpegoptim.exe",
-                    $"-o --all-progressive \"{ImageOptimizationStep.InputFileToken}\"")
+                    $"-o --all-progressive \"{InputFileToken}\"")
             });
 
 
