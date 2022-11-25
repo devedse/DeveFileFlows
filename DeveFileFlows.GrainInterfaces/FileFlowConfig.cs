@@ -1,8 +1,12 @@
 ﻿namespace DeveFileFlows.GrainInterfaces
 {
     [Immutable, GenerateSerializer]
-    public record class FileFlowConfig
+    public record FileFlowConfig
     {
-        public string Name { get; set; }
+        [Id(0)]
+        public string Name { get; set; } = "";
+
+        [Id(1)]
+        public string Description { get; set; }
     };
 }

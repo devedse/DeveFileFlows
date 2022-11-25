@@ -29,7 +29,12 @@ var fileFlow1 = client.GetGrain<IFileFlowGrain>(0);
 var theconfig = await fileFlow1.GetFileFlowConfig();
 Console.WriteLine(theconfig.Name);
 
-await fileFlow1.SetFileFlowConfig(new FileFlowConfig() { Name = "CompressImage" });
+var thenewconfig = new FileFlowConfig()
+{
+    Name = "CompressImage",
+    Description = "Hallo dit is een onschrijving die het graan beschrijft"
+};
+await fileFlow1.SetFileFlowConfig(thenewconfig);
 await fileFlow1.SetSteps(new List<FileFlowStep>()
             {
                 new FileFlowStep(
